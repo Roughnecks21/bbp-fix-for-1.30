@@ -1,0 +1,20 @@
+ImageSetClass {
+ Name "workbench_UI2"
+ RefSize 1184 768
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "{47870B5F875C7256}BaseBuildingPlus/gui/imagesets/workbench_UI2.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass print {
+   Name "print"
+   Pos 1 1
+   Size 1181 766
+   Flags 0
+  }
+ }
+ Groups {
+ }
+}

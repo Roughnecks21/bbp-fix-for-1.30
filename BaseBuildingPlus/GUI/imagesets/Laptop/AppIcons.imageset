@@ -1,0 +1,32 @@
+ImageSetClass {
+ Name "AppIcons"
+ RefSize 1024 1024
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "{3FFB23A153CDFC3D}BaseBuildingPlus/GUI/Images/Laptop/AppIcons.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass Icon_BM {
+   Name "Icon_BM"
+   Pos 7 8
+   Size 200 200
+   Flags 0
+  }
+  ImageSetDefClass Icon_BP {
+   Name "Icon_BP"
+   Pos 258 8
+   Size 200 200
+   Flags 0
+  }
+  ImageSetDefClass Icon_CCTV {
+   Name "Icon_CCTV"
+   Pos 509 8
+   Size 200 200
+   Flags 0
+  }
+ }
+ Groups {
+ }
+}

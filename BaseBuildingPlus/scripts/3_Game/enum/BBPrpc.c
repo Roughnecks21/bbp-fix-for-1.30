@@ -1,0 +1,4 @@
+enum BBPRPC
+{
+   CHECKBBPCONFIG
+}

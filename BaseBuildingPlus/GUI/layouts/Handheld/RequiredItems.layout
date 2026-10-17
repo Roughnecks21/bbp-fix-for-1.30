@@ -1,0 +1,66 @@
+FrameWidgetClass rootFrame {
+ clipchildren 0
+ position 0 0
+ size 1 52
+ halign center_ref
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 1
+ {
+  TextWidgetClass RequiredItemName {
+   ignorepointer 1
+   color 0 0 0 1
+   position 52 0
+   size 318 1
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 0
+   text "Nails"
+   font "gui/fonts/MetronBlack-Italic22"
+   "text color" 0 0 0 1
+   "text valign" center
+  }
+  TextWidgetClass RequireItemCount {
+   ignorepointer 1
+   color 0 0 0 1
+   position 0 0
+   size 48 1
+   halign right_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 0
+   text "x 36"
+   font "gui/fonts/Metron-Bold22"
+   "exact text" 1
+   "text halign" center
+   "text valign" center
+  }
+  FrameWidgetClass MainItemPreviewFrame {
+   ignorepointer 1
+   size 48 48
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   {
+    ItemPreviewWidgetClass MainItemPreveiw {
+     ignorepointer 1
+     position 0 0
+     size 0 0
+     halign center_ref
+     valign center_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+    }
+   }
+  }
+ }
+}

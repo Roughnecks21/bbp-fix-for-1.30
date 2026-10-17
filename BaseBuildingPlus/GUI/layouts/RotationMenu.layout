@@ -1,0 +1,219 @@
+FrameWidgetClass BuildingMenu {
+ position 11.5773 -18.5788
+ size 1548.42004 838.03998
+ halign center_ref
+ valign center_ref
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ {
+  FrameWidgetClass I_Track0 {
+   clipchildren 0
+   ignorepointer 1
+   position 0.01074 -0.78394
+   size 928 500
+   halign center_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   scaled 0
+   {
+    ButtonWidgetClass roll_rot {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 7.5 -195.5
+     size 303 93
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Roll Rotation"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass pitch_rot {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 7.50002 -67.5
+     size 303 93
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Pitch Rotation"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass yaw_rot {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 7.50002 60.5
+     size 303 93
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Yaw Rotation"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass reset_rot {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 7.50002 196.5
+     size 303 93
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Reset Hologram"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass en_adv_rot {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position -326.5 -131.5
+     size 259 93
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Enable Advance Rotation"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass dis_adv_rot {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position -326.5 -3.49999
+     size 259 93
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Disable Advance Rotation"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass en_freeze {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 329.5 -131.5
+     size 259 93
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Freeze Hologram"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass dis_freeze {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 329.5 -3.5
+     size 259 93
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Unfreeze Hologram"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass holo_for_back {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 328 139.5
+     size 208 27
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Axis: X"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass holo_up_down {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 328 179.5
+     size 208 27
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Axis: Y"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass holo_left_right {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position 328 219.5
+     size 208 27
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Axis: Z"
+     font "gui/fonts/metron-bold22"
+    }
+    ButtonWidgetClass imdisabled {
+     clipchildren 0
+     color 0.1725 0.1216 0.1216 1
+     position -2 -5.5
+     size 918 505
+     halign center_ref
+     valign center_ref
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style MenuDefault
+     text "Your server has this disabled"
+     font "gui/fonts/metron-bold22"
+    }
+   }
+  }
+ }
+}

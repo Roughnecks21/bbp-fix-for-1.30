@@ -1,0 +1,352 @@
+FrameWidgetClass WBUI {
+ keepsafezone 0
+ position 0 0
+ size 2014.06995 1080
+ halign center_ref
+ valign center_ref
+ hexactpos 1
+ vexactpos 1
+ hexactsize 1
+ vexactsize 1
+ scaled 0
+ fixaspect fixwidth
+ draggable 0
+ {
+  ImageWidgetClass I_Track0 {
+   clipchildren 0
+   ignorepointer 1
+   position 0.19199 -0.808
+   size 1230 646
+   halign center_ref
+   valign center_ref
+   hexactpos 1
+   vexactpos 1
+   hexactsize 1
+   vexactsize 1
+   scaled 0
+   image0 ""
+   imageTexture "{539F25AC61DF8A91}BaseBuildingPlus/GUI/Images/BookUIBase.edds"
+   mode blend
+   "src alpha" 1
+   "no wrap" 0
+   stretch 1
+   {
+    ButtonWidgetClass Wall_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 629.80798 197.808
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Wall Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Discord_Link {
+     position 261.80798 413.80798
+     size 349.82797 77.1435
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Building Material Wiki"
+     font "gui/fonts/amorserifpro-bold48"
+     "text color" 0 0.1255 0.502 1
+     "disabled text color" 0.502 0 0 1
+    }
+    TextWidgetClass BBP_Kits {
+     ignorepointer 1
+     color 0 0 0 1
+     position 1175.76001 128.884
+     size 281.64502 79.441
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     fixaspect fixwidth
+     style Normal
+     text "BBP KITS"
+     font "gui/fonts/amorserifpro-bold48"
+     "text color" 1 0 0 1
+    }
+    TextWidgetClass Recipe {
+     ignorepointer 1
+     color 0 0 0 1
+     position 1026.67993 234.897
+     size 596.31799 79.441
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     fixaspect fixwidth
+     style Normal
+     text "5 PLANKS + 5 NAILS"
+     font "gui/fonts/amorserifpro-bold48"
+     "text color" 0 0.1255 0.502 1
+    }
+    ButtonWidgetClass Door_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 805.80798 197.808
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Door Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Floor_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 629.80798 261.80798
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Floor Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Roof_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 805.80798 261.80798
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Roof Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Gate_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 629.80798 325.80798
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Gate Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Ramp_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 805.80798 325.80798
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Ramp Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Stair_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 629.80798 389.80798
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Stair Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Window_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 805.80798 389.80798
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Window Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Half_Wall_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 629.80798 453.80798
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Half Wall Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Roof_Hatch_Kit {
+     inheritalpha 1
+     color 0.4941 0.4314 0.4784 1
+     position 445.80798 85.80801
+     size 161.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Roof Hatch Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+     "disabled text color" 0.502 0.502 0.502 1
+    }
+    ButtonWidgetClass Foundation_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 261.80798 85.80801
+     size 168 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Foundation Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Hanger_Roof_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 709.80798 517.80798
+     size 168 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Hanger Roof Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Pillar_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 805.80798 453.80798
+     size 137.636 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Pillar Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Slope_Roof_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 261.80798 149.808
+     size 168 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Slope Roof Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Slope_Wall_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 445.80798 149.808
+     size 160 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Slope Wall Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Triangle_Floor_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 341.80798 205.808
+     size 192 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Triangle Floor Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Triangle_Roof_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 341.80798 261.80798
+     size 192 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Triangle Roof Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+    ButtonWidgetClass Step_Ladder_Kit {
+     inheritalpha 1
+     color 0.2549 0.2549 0.2549 1
+     position 341.80798 317.80798
+     size 192 44.02
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     scaled 0
+     style InventoryActionMenu
+     text "Step Ladder Kit"
+     font "gui/fonts/amorserifpro-bold28"
+     "text color" 0 0.502 0.1255 1
+    }
+   }
+  }
+ }
+}

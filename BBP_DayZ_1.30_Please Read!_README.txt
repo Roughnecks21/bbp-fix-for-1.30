@@ -1,0 +1,12 @@
+BaseBuildingPlus — DayZ Standalone 1.30 Compatibility Work
+Unofficial technical handoff
+
+Additional feature present: vanilla Digital Code Lock battery option (server loaded; gameplay not yet validated) server owners will need to add this line "BBP_RequireVanillaCodeLockBattery": false,
+			    It will need to be added in between  these 2 lines "BBP_BarbedWireRemoveOutside": 1,
+									       "BBP_CanAttachFlashlights": 0,
+
+			    Added in vanilla code lock usage on all of the lockable items
+
+I went through and cleaned up old functions. 
+Everything is working as it should right now. Please test it as much as you need and if you need anything changed please let me know Im in your discord.  
+

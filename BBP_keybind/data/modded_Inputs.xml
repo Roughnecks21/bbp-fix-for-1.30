@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<modded_inputs>
+    <inputs>
+        <actions>
+            <input name="UACycleSize" loc="STR_BBP_CYCLE" />
+			<input name="UANextSnap" loc="STR_BBP_NEXT_SNAP" />
+			<input name="UAPrevSnap" loc="STR_BBP_PREV_SNAP" />
+			<input name="UASnapLook" loc="STR_BBP_SNAP_LOOK" />
+			<input name="UABBPTogInv" loc="STR_BBP_TOG_INV" />
+			<input name="UABBPRotate" loc="STR_BBP_ROTATE" />
+        </actions>
+		<sorting name="bbp" loc="STR_BBP_MENU">
+			<input name="UACycleSize"/>
+			<input name="UANextSnap"/>
+			<input name="UAPrevSnap"/>
+			<input name="UASnapLook"/>
+			<input name="UABBPTogInv"/>
+			<input name="UABBPRotate"/>
+		</sorting>
+		<exclude name="BBPKeys">
+			<input name="UACycleSize"/>
+			<input name="UANextSnap"/>
+			<input name="UAPrevSnap"/>
+			<input name="UASnapLook"/>
+			<input name="UABBPTogInv"/>
+			<input name="UABBPRotate"/>
+		</exclude>
+	</inputs>
+    <preset>
+		<input name="UABBPRotate">
+            <btn name="kUP" >
+		</btn>
+        </input>
+        <input name="UACycleSize">
+            <btn name="kLEFT" >
+		</btn>
+        </input>
+		<input name="UANextSnap">
+            <btn name="mWheelUp" >
+		</btn>
+        </input>
+		<input name="UAPrevSnap">
+            <btn name="mWheelDown" >
+		</btn>
+        </input>
+		<input name="UASnapLook">
+            <btn name="kDOWN" >
+		</btn>
+        </input>
+		<input name="UABBPTogInv">
+            <btn name="" >
+		</btn>
+        </input>
+    </preset>
+</modded_inputs>

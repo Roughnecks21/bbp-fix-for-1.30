@@ -1,0 +1,230 @@
+FrameWidgetClass rootFrame {
+ size 1 1
+ halign center_ref
+ valign center_ref
+ hexactpos 0
+ vexactpos 0
+ hexactsize 0
+ vexactsize 0
+ {
+  ImageWidgetClass Background {
+   ignorepointer 1
+   size 1 0.95
+   halign center_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   imageTexture "{A66EFDA2D7BFBBAB}BaseBuildingPlus/GUI/Images/Laptop/Background.edds"
+   mode blend
+   "src alpha" 1
+   "no wrap" 1
+   stretch 1
+   {
+    GridSpacerWidgetClass Applications {
+     ignorepointer 1
+     position 0 0
+     size 0.07 1
+     valign center_ref
+     hexactpos 0
+     vexactpos 0
+     hexactsize 0
+     vexactsize 0
+     Columns 1
+     Rows 7
+     {
+      ButtonWidgetClass BaseManagement {
+       size 1 1
+       halign center_ref
+       valign center_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       style Empty
+       {
+        PanelWidgetClass app1 {
+         ignorepointer 1
+         size 1 1
+         halign center_ref
+         valign center_ref
+         hexactpos 0
+         vexactpos 0
+         hexactsize 0
+         vexactsize 0
+         {
+          ImageWidgetClass icon1 {
+           ignorepointer 1
+           position 0 5
+           size 0.7 0.6
+           halign center_ref
+           hexactpos 1
+           vexactpos 1
+           hexactsize 0
+           vexactsize 0
+           image0 "set:AppIcons image:Icon_BM"
+           mode blend
+           "src alpha" 1
+           "no wrap" 1
+           stretch 1
+          }
+          RichTextWidgetClass text1 {
+           ignorepointer 1
+           position 0 0
+           size 1 0.35
+           halign center_ref
+           valign bottom_ref
+           hexactpos 0
+           vexactpos 0
+           hexactsize 0
+           vexactsize 0
+           style DayZNormal
+           text "Base Managment"
+           font "gui/fonts/metronlight22"
+           "exact text" 1
+           "size to text h" 0
+           "size to text v" 0
+           "text halign" center
+           "text valign" center
+           wrap 1
+          }
+         }
+        }
+       }
+      }
+      ButtonWidgetClass BasePermissions {
+       size 1 1
+       halign center_ref
+       valign center_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       style Empty
+       {
+        PanelWidgetClass app0 {
+         ignorepointer 1
+         size 1 1
+         halign center_ref
+         valign center_ref
+         hexactpos 0
+         vexactpos 0
+         hexactsize 0
+         vexactsize 0
+         {
+          ImageWidgetClass icon0 {
+           ignorepointer 1
+           position 0 5
+           size 0.7 0.6
+           halign center_ref
+           hexactpos 1
+           vexactpos 1
+           hexactsize 0
+           vexactsize 0
+           image0 "set:AppIcons image:Icon_BP"
+           mode blend
+           "src alpha" 1
+           "no wrap" 1
+           stretch 1
+          }
+          RichTextWidgetClass text0 {
+           ignorepointer 1
+           position 0 0
+           size 1 0.35
+           halign center_ref
+           valign bottom_ref
+           hexactpos 0
+           vexactpos 0
+           hexactsize 0
+           vexactsize 0
+           style DayZNormal
+           text "Base Permissions"
+           font "gui/fonts/metronlight22"
+           "exact text" 1
+           "size to text h" 0
+           "size to text v" 0
+           "text halign" center
+           "text valign" center
+           wrap 1
+          }
+         }
+        }
+       }
+      }
+      ButtonWidgetClass CCTV {
+       size 1 1
+       halign center_ref
+       valign center_ref
+       hexactpos 0
+       vexactpos 0
+       hexactsize 0
+       vexactsize 0
+       style Empty
+       {
+        PanelWidgetClass app2 {
+         ignorepointer 1
+         size 1 1
+         halign center_ref
+         valign center_ref
+         hexactpos 0
+         vexactpos 0
+         hexactsize 0
+         vexactsize 0
+         {
+          ImageWidgetClass icon2 {
+           ignorepointer 1
+           position 0 5
+           size 0.7 0.6
+           halign center_ref
+           hexactpos 1
+           vexactpos 1
+           hexactsize 0
+           vexactsize 0
+           image0 "set:AppIcons image:Icon_CCTV"
+           mode blend
+           "src alpha" 1
+           "no wrap" 1
+           stretch 1
+          }
+          RichTextWidgetClass text2 {
+           ignorepointer 1
+           position 0 0
+           size 1 0.35
+           halign center_ref
+           valign bottom_ref
+           hexactpos 0
+           vexactpos 0
+           hexactsize 0
+           vexactsize 0
+           style DayZNormal
+           text "CCTV"
+           font "gui/fonts/metronlight22"
+           "exact text" 1
+           "size to text h" 0
+           "size to text v" 0
+           "text halign" center
+           "text valign" center
+           wrap 1
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+  PanelWidgetClass Taskbar {
+   ignorepointer 1
+   color 0.098 0.098 0.098 1
+   size 1 0.05
+   halign center_ref
+   valign bottom_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 0
+   vexactsize 0
+   style rover_sim_colorable
+  }
+ }
+}

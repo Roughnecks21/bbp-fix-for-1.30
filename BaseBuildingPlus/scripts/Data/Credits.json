@@ -1,0 +1,17 @@
+{
+    "Departments": [{
+        "DepartmentName": "BaseBuildingPlus",
+        "Sections": [{
+            "SectionName": "Developers",
+            "SectionLines": [
+                "Chopper",
+                "FourthDZ",
+                "Juusto",
+                "HennySea",
+                "Jest",
+                "DaemonForge",
+                "Dumpgraph"
+            ]
+        }]
+    }]
+}

@@ -1,0 +1,68 @@
+ImageSetClass {
+ Name "bbp_icons"
+ RefSize 512 512
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "{E4AA0CE7DA32D3DE}BaseBuildingPlus/GUI/imagesets/bbp_icons.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass bbp_cementbricks {
+   Name "bbp_cementbricks"
+   Pos 7 6
+   Size 62 56
+   Flags 0
+  }
+  ImageSetDefClass bbp_blueprint {
+   Name "bbp_blueprint"
+   Pos 73 6
+   Size 62 56
+   Flags 0
+  }
+  ImageSetDefClass bbp_wallpaper {
+   Name "bbp_wallpaper"
+   Pos 136 6
+   Size 56 56
+   Flags 0
+  }
+  ImageSetDefClass bbp_cement {
+   Name "bbp_cement"
+   Pos 195 4
+   Size 62 56
+   Flags 0
+  }
+  ImageSetDefClass bbp_carpet {
+   Name "bbp_carpet"
+   Pos 260 4
+   Size 62 56
+   Flags 0
+  }
+  ImageSetDefClass bbp_tm {
+   Name "bbp_tm"
+   Pos 325 4
+   Size 67 56
+   Flags 0
+  }
+  ImageSetDefClass bbp_handsaw {
+   Name "bbp_handsaw"
+   Pos 400 4
+   Size 62 56
+   Flags 0
+  }
+  ImageSetDefClass bbp_plaster {
+   Name "bbp_plaster"
+   Pos 6 64
+   Size 62 56
+   Flags 0
+  }
+  ImageSetDefClass bbp_mortar {
+   Name "bbp_mortar"
+   Pos 72 65
+   Size 62 56
+   Flags 0
+  }
+ }
+ Groups {
+ }
+}

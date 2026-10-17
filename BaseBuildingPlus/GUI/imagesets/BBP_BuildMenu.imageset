@@ -1,0 +1,20 @@
+ImageSetClass {
+ Name "BBP_BuildMenu"
+ RefSize 700 700
+ Textures {
+  ImageSetTextureClass {
+   mpix 1
+   path "{0EAA39D215725B74}basebuildingplus/gui/imagesets/BBP_BuildMenu.edds"
+  }
+ }
+ Images {
+  ImageSetDefClass BuildWheel {
+   Name "BuildWheel"
+   Pos 0 0
+   Size 700 700
+   Flags 0
+  }
+ }
+ Groups {
+ }
+}
