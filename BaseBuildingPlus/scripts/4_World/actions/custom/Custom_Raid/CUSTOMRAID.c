@@ -376,25 +376,29 @@ class ActionDestroyBBP: ActionContinuousBase
 			
 			if(bbpbase.BBPGetTier() == 3)
 			{				
-				action_data.m_MainItem.DecreaseHealth( getBaseDestroyToolDamageT3(), false );
+				if (!action_data.m_MainItem.isBBPAdminTool())
+					action_data.m_MainItem.DecreaseHealth( getBaseDestroyToolDamageT3(), false );
 			}
 			
 			//t2
 			else if(bbpbase.BBPGetTier() == 2)
 			{
-				action_data.m_MainItem.DecreaseHealth( getBaseDestroyToolDamageT2(), false );
+				if (!action_data.m_MainItem.isBBPAdminTool())
+					action_data.m_MainItem.DecreaseHealth( getBaseDestroyToolDamageT2(), false );
 			}
 			
 			//t1
 			else if(bbpbase.BBPGetTier() == 1)
 			{
-				action_data.m_MainItem.DecreaseHealth( getBaseDestroyToolDamageT1(), false );
+				if (!action_data.m_MainItem.isBBPAdminTool())
+					action_data.m_MainItem.DecreaseHealth( getBaseDestroyToolDamageT1(), false );
 			}
 			
 			//t1
 			else if(bbpbase.BBPGetTier() == 0)
 			{
-				action_data.m_MainItem.DecreaseHealth( getBaseDestroyToolDamageT1(), false );
+				if (!action_data.m_MainItem.isBBPAdminTool())
+					action_data.m_MainItem.DecreaseHealth( getBaseDestroyToolDamageT1(), false );
 				construction.DestroyPartServer( action_data.m_Player, "frame" , AT_DESTROY_PART );
 			}
 			

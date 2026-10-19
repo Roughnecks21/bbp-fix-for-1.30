@@ -9,7 +9,7 @@ class CraftingBookUI extends UIScriptedMenu
 	//protected Widget 									m_RequiredToolsGrid;
 	protected ItemPreviewWidget 						m_MainItemPreveiw;
 	
-	protected autoptr BBPRecipeBase 					m_BBPRecipeBase;
+	protected BBPRecipeBase 					m_BBPRecipeBase;
 	protected autoptr BBPRecipeItem						m_RecipeItem1;
 	protected autoptr BBPRecipeItem						m_RecipeItem2;
 	protected autoptr BBPRecipeItem						m_RecipeItem3;
@@ -101,13 +101,14 @@ class CraftingBookUI extends UIScriptedMenu
 				}
 			}
 		}
-		m_CraftButton.Show(obfv_canCraft);
+		m_CraftButton.Show(true);
+		m_CraftButton.Enable(obfv_canCraft);
 	}
 	
 	void SetEntity(EntityAI entity){
 		m_Book = BBP_CRAFTINGBOOK_BASE.Cast(entity);
 		if (m_Book){
-			autoptr array<autoptr BBPRecipeBase> Recipies = m_Book.GetRecipes();
+			array<autoptr BBPRecipeBase> Recipies = m_Book.GetRecipes();
 			if (!Recipies || Recipies.Count() < 1){return;}
 			int i = 0;
 			if (m_RecipieButtonWidgets){
@@ -126,6 +127,7 @@ class CraftingBookUI extends UIScriptedMenu
 	{		
 		if (w == m_CraftButton && m_Book && m_BBPRecipeBase) 
 		{
+			Print("[BBP-CRAFT-DIAG] CLIENT: Craft button clicked, sending request for " + m_BBPRecipeBase.GetResult());
 			m_Book.Craft(m_BBPRecipeBase);
 			tempisCrafting = true;// HENNY ADDED
 			GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY ).CallLater( time_buffer, 400, false); // HENNY ADDED
@@ -159,7 +161,7 @@ class CraftingBookUI extends UIScriptedMenu
 		m_BBPRecipeBase = BBPRecipeBase.Cast(recipe);
 		//Set Up Required 
 		m_MainItemTitle.SetText(m_BBPRecipeBase.GetTitle());
-		autoptr array<autoptr BBPRecipeItem> requiredItems = recipe.GetRequiredItems();
+		array<autoptr BBPRecipeItem> requiredItems = recipe.GetRequiredItems();
 		if (m_RequiredItemWidgets){
 			delete m_RequiredItemWidgets;
 		}
@@ -183,14 +185,51 @@ class CraftingBookUI extends UIScriptedMenu
 		{
 			GetGame().ObjectDelete(m_PreviewItem);
 		}
+		// Temporary diagnostic: report why the normal Craft button eligibility may fail.
+		BBP_Workbench diagBench;
+		if (m_Book) diagBench = BBP_Workbench.Cast(m_Book.GetHierarchyParent());
+		if (!diagBench)
+		{
+			Print("[BBP-CRAFT-DIAG] CLIENT: crafting book has no BBP_Workbench parent");
+		}
+		else
+		{
+			if (diagBench.Has_Tools()) Print("[BBP-CRAFT-DIAG] CLIENT: tools OK");
+			else Print("[BBP-CRAFT-DIAG] CLIENT: Has_Tools failed (tape measure or handsaw slot)");
+			array<autoptr BBPRecipeItem> diagRequirements = recipe.GetRequiredItems();
+			if (!diagRequirements)
+			{
+				Print("[BBP-CRAFT-DIAG] CLIENT: required-items array missing");
+			}
+			else
+			{
+				foreach (BBPRecipeItem diagItem : diagRequirements)
+				{
+					if (!diagItem) Print("[BBP-CRAFT-DIAG] CLIENT: null requirement");
+					else if (!diagBench.DeductMats_check(diagItem.ItemClassName, diagItem.Quantity)) Print("[BBP-CRAFT-DIAG] CLIENT: insufficient attached " + diagItem.ItemClassName);
+					else Print("[BBP-CRAFT-DIAG] CLIENT: material OK " + diagItem.ItemClassName);
+				}
+			}
+		}
 		BBPRecipePreviewItem previewItem = recipe.GetPreviewItem();
 		m_PreviewItem = InventoryItem.Cast(GetGame().CreateObject(previewItem.ItemClassName,"0 0 0", true, false, true ));
 		if (m_PreviewItem)
 		{
 			BaseBuildingBase basebuilding;
-			if (Class.CastTo(basebuilding, m_PreviewItem)){
-				for (i = 0; i < previewItem.Parts.Count(); i++){
-					basebuilding.OnPartBuiltServer(PlayerBase.Cast(GetGame().GetPlayer()), previewItem.Parts.Get(i), AT_BUILD_PART  );
+			if (Class.CastTo(basebuilding, m_PreviewItem))
+			{
+				Construction previewConstruction = basebuilding.GetConstruction();
+				PlayerBase previewPlayer = PlayerBase.Cast(GetGame().GetPlayer());
+				if (previewConstruction && previewPlayer && previewItem.Parts)
+				{
+					for (i = 0; i < previewItem.Parts.Count(); i++)
+					{
+						string previewPartName = previewItem.Parts.Get(i);
+						if (previewConstruction.GetConstructionPart(previewPartName))
+						{
+							basebuilding.OnPartBuiltServer(previewPlayer, previewPartName, AT_BUILD_PART);
+						}
+					}
 				}
 			}
 			m_MainItemPreveiw.SetItem( m_PreviewItem );

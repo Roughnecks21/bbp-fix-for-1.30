@@ -359,7 +359,8 @@ class ActionDismantleBBP: ActionContinuousBase
 
 			//GetGame().ObjectDelete(action_data.m_Target.GetObject()); //delete
 
-			action_data.m_MainItem.DecreaseHealth( getBaseDismantleToolDamageBBP(), false );
+			if (!action_data.m_MainItem.isBBPAdminTool())
+				action_data.m_MainItem.DecreaseHealth( getBaseDismantleToolDamageBBP(), false );
 			action_data.m_Player.GetSoftSkillsManager().AddSpecialty( m_SpecialtyWeight ); //add tool dmg
 		}
 	}

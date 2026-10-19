@@ -185,22 +185,15 @@ class BBP_Workbench extends ItemBase
 	
 	bool Has_Tools()
 	{
-		int slot_id;
-		int slot_id_2;
-		slot_id = InventorySlots.GetSlotIdFromString("BBP_TapeMeasure");
-		slot_id_2 = InventorySlots.GetSlotIdFromString("Melee");
-		ItemBase tape = ItemBase.Cast( GetInventory().FindAttachment(slot_id) );
-		ItemBase saw = ItemBase.Cast( GetInventory().FindAttachment(slot_id_2) );
-		
-		if ( tape && tape.IsKindOf("BBP_TapeMeasure") && saw && saw.IsKindOf("HandSaw") )
+		for (int i = 0; i < GetInventory().AttachmentCount(); i++)
 		{
-			return true;
+			EntityAI attachment = GetInventory().GetAttachmentFromIndex(i);
+			if (attachment && attachment.IsKindOf("BBP_TapeMeasure")) return true;
 		}
-		
 		return false;
 	}
 	
-	override bool CanPutIntoHands(EntityAI parent)
+		override bool CanPutIntoHands(EntityAI parent)
 	{
 		return false;
 	}

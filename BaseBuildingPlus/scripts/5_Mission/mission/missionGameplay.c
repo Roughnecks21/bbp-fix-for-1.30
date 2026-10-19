@@ -52,11 +52,16 @@ modded class MissionGameplay
 			}
 		}
 		
-		//bro wtf is this ):
+		// Step Ladder uses normal placement but does not need the BBP keybind panel.
 		if (iteminhands)
 		{
-			if (iteminhands && iteminhands.isBBP_Object())
-			{			
+			if (iteminhands.IsKindOf("BBP_Step_Ladder_Kit"))
+			{
+				m_BBP_Snap_On.Show(false);
+				m_BBP_Snap_Off.Show(false);
+			}
+			else if (iteminhands.isBBP_Object())
+			{
 				if (snappingEnabled)
 				{
 					m_BBP_Snap_On.Show(true);
