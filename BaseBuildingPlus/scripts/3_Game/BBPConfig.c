@@ -88,14 +88,97 @@ class BBPGlobals
 		BBPConfig config = new BBPConfig;
 
 		if (!FileExist(configPath))
-        {
-            Print("[BBP] 'BBP_Settings' does not exist, creating...");
-            CreateDefaultConfig(config);
-        }
+		{
+			Print("[BBP] 'BBP_Settings' does not exist, creating...");
+			CreateDefaultConfig(config);
+		}
+		else
+		{
+			AddMissingBatterySetting();
+		}
 
 		JsonFileLoader<BBPConfig>.JsonLoadFile(configPath, config);
 		Print("[BBP] 'BBP_Settings' found, loading...");
 		return config;
+	}
+
+	// Add the new setting once, without reserializing or removing custom JSON fields.
+	private static void AddMissingBatterySetting()
+	{
+		FileHandle input = OpenFile(configPath, FileMode.READ);
+		if (input == 0) return;
+
+		string line;
+		bool missing = true;
+		while (FGets(input, line) >= 0)
+		{
+			if (line.Contains("\"BBP_RequireVanillaCodeLockBattery\""))
+			{
+				missing = false;
+				break;
+			}
+		}
+		CloseFile(input);
+		if (!missing) return;
+
+		string tempPath = configPath + ".battery_tmp.json";
+		input = OpenFile(configPath, FileMode.READ);
+		if (input == 0) return;
+
+		FileHandle output = OpenFile(tempPath, FileMode.WRITE);
+		if (output == 0)
+		{
+			CloseFile(input);
+			return;
+		}
+
+		int replacements = 0;
+		while (FGets(input, line) >= 0)
+		{
+			replacements += line.Replace("\"BBP_DisableCraftVanillaFence\"", "\"BBP_RequireVanillaCodeLockBattery\": true,\n    \"BBP_DisableCraftVanillaFence\"");
+			FPrintln(output, line);
+		}
+		CloseFile(input);
+		CloseFile(output);
+
+		BBPConfig testConfig = new BBPConfig;
+		string errorMessage;
+		if (replacements != 1 || !JsonFileLoader<BBPConfig>.LoadFile(tempPath, testConfig, errorMessage))
+		{
+			Print("[BBP] Battery setting migration skipped: source JSON is not compatible.");
+			DeleteFile(tempPath);
+			return;
+		}
+
+		if (!testConfig.BBP_BuildTools || !testConfig.BBP_DismantleTools || !testConfig.BBP_Tier1RaidTools || !testConfig.BBP_Tier2RaidTools || !testConfig.BBP_Tier3RaidTools || !testConfig.BBP_CementMixerLocations)
+		{
+			Print("[BBP] Battery setting migration skipped: incomplete settings.");
+			DeleteFile(tempPath);
+			return;
+		}
+
+		string backupPath = configPath + ".before_battery_setting.bak";
+		if (FileExist(backupPath) || !CopyFile(configPath, backupPath))
+		{
+			Print("[BBP] Battery setting migration skipped: backup already exists or could not be created.");
+			DeleteFile(tempPath);
+			return;
+		}
+
+		// CopyFile may not overwrite an existing destination on all setups.
+		bool installed = CopyFile(tempPath, configPath);
+		if (!installed && DeleteFile(configPath))
+			installed = CopyFile(tempPath, configPath);
+
+		if (installed)
+			Print("[BBP] Added BBP_RequireVanillaCodeLockBattery=true to existing settings.");
+		else
+		{
+			if (!FileExist(configPath))
+				CopyFile(backupPath, configPath);
+			Print("[BBP] Battery setting migration failed; see settings backup.");
+		}
+		DeleteFile(tempPath);
 	}
 
 	private static void CreateDefaultConfig(BBPConfig config)
