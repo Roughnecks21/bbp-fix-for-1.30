@@ -4356,7 +4356,7 @@ modded class ItemBase	// extends InventoryItem
 		return getSnappingPointFloorFlat_150();
 	}
 
-	vector getSnappingPointFoundation_600()  // 6m foundation-to-foundation: snap beside an edge.
+	vector getSnappingPointFoundation_600()  // 6m foundations and floors: snap beside an edge.
 	{
 		ItemBase iteminhands;
 		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
@@ -4365,8 +4365,8 @@ modded class ItemBase	// extends InventoryItem
 			iteminhands = ItemBase.Cast(player.GetHumanInventory().GetEntityInHands());
 		}
 
-		// Other floor kits still sit centered ON the foundation.
-		if (!iteminhands || !iteminhands.IsInherited(BBP_Foundation_Kit))
+		// Foundations and large floor kits extend from the foundation edges; other kits remain centered.
+		if (!iteminhands || (!iteminhands.IsInherited(BBP_Foundation_Kit) && !iteminhands.IsInherited(BBP_Floor_Kit)))
 		{
 			HologramOrientation = AUTO_BBP_SNAPPING_OBJECT.GetOrientation();
 			vector center = (GetMemoryPointPos("snappingfloor_600_front") + GetMemoryPointPos("snappingfloor_600_back")) * 0.5;

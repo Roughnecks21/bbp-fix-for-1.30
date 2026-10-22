@@ -225,7 +225,7 @@ class BBPGlobals
 		config.BBP_Tier3RaidTools = { "SledgeHammer"};
 		config.BBP_CementMixerTime = 252;
 		
-		ref array<ref CementMixerLocations> CMLocations = new ref array<ref CementMixerLocations>;
+		array<ref CementMixerLocations> CMLocations = new array<ref CementMixerLocations>;
 
 		CementMixerLocations loc = new CementMixerLocations;
 		CementMixerLocations loc2 = new CementMixerLocations;

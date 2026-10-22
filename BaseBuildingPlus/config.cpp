@@ -295,6 +295,17 @@ class CfgVehicles
 		itemSize[]={1,1};
 		rotationFlags=1;
 	};
+	class BBP_BuildingDevice: Inventory_Base
+    {
+        scope = 2;
+        displayName = "BBP Building Device";
+        descriptionShort = "Handheld device for selecting and placing BBP building components.";
+        model = "\dz\gear\navigation\GPSReceiver.p3d";
+        weight = 100;
+        itemSize[] = {1,2};
+        rotationFlags = 17;
+        isMeleeWeapon = 0;
+    };
 };
 class CfgNonAIVehicles
 {
