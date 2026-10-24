@@ -75,7 +75,7 @@ class CfgVehicles
 	{
 		scope=0;
 		displayName="WorkstationBase";
-		descriptionShort="Attach a blueprint, tape measure and hand-saw start crafting.";
+		descriptionShort="Attach the BBP Crafting Book to start crafting kits. Add materials to craft kits.";
 		model="BaseBuildingPlus\models\workbench\workbench.p3d";
 		attachments[]=
 		{

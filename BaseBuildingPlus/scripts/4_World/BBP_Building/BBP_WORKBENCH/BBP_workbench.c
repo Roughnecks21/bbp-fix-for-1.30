@@ -185,12 +185,8 @@ class BBP_Workbench extends ItemBase
 	
 	bool Has_Tools()
 	{
-		for (int i = 0; i < GetInventory().AttachmentCount(); i++)
-		{
-			EntityAI attachment = GetInventory().GetAttachmentFromIndex(i);
-			if (attachment && attachment.IsKindOf("BBP_TapeMeasure")) return true;
-		}
-		return false;
+		// Keep the existing client/server crafting checks compatible; no tool is required.
+		return true;
 	}
 	
 		override bool CanPutIntoHands(EntityAI parent)
