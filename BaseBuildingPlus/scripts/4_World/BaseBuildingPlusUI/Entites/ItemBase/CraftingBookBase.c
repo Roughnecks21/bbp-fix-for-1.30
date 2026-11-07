@@ -48,34 +48,32 @@ class BBP_CRAFTINGBOOK_BASE extends ItemBase
 
 	void CraftServer(int recipeIndex, PlayerBase player)
 	{
-		// Temporary crafting diagnostics; security checks and crafting costs unchanged.
 		if (!GetGame().IsServer()) return;
-		if (!player) { Print("[BBP-CRAFT-DIAG] SERVER: player lookup failed"); return; }
-		if (!Recipies || recipeIndex < 0 || recipeIndex >= Recipies.Count()) { Print("[BBP-CRAFT-DIAG] SERVER: invalid recipe index"); return; }
-		if (vector.Distance(player.GetPosition(), GetPosition()) > 10) { Print("[BBP-CRAFT-DIAG] SERVER: player is too far from book"); return; }
+		if (!player) return;
+		if (!Recipies || recipeIndex < 0 || recipeIndex >= Recipies.Count()) return;
+		if (vector.Distance(player.GetPosition(), GetPosition()) > 10) return;
 
 		BBP_Workbench workbench = BBP_Workbench.Cast(GetHierarchyParent());
-		if (!workbench) { Print("[BBP-CRAFT-DIAG] SERVER: book not attached to BBP workbench"); return; }
-		if (workbench.GetCraftingBook() != this) { Print("[BBP-CRAFT-DIAG] SERVER: workbench book mismatch"); return; }
-		if (!workbench.Has_Tools()) { Print("[BBP-CRAFT-DIAG] SERVER: required tools missing"); return; }
+		if (!workbench) return;
+		if (workbench.GetCraftingBook() != this) return;
+		if (!workbench.Has_Tools()) return;
 
 		BBPRecipeBase selectedRecipe = Recipies.Get(recipeIndex);
-		if (!selectedRecipe) { Print("[BBP-CRAFT-DIAG] SERVER: recipe missing"); return; }
-		if (!GetGame().ConfigIsExisting("CfgVehicles " + selectedRecipe.GetResult())) { Print("[BBP-CRAFT-DIAG] SERVER: result classname not defined " + selectedRecipe.GetResult()); return; }
+		if (!selectedRecipe) return;
+		if (!GetGame().ConfigIsExisting("CfgVehicles " + selectedRecipe.GetResult())) return;
 		array<autoptr BBPRecipeItem> requiredItems = selectedRecipe.GetRequiredItems();
-		if (!requiredItems) { Print("[BBP-CRAFT-DIAG] SERVER: requirements missing"); return; }
+		if (!requiredItems) return;
 
 		// Check every requirement before taking a single item.
 		foreach (BBPRecipeItem requiredItem : requiredItems)
 		{
-			if (!requiredItem || requiredItem.Quantity <= 0) { Print("[BBP-CRAFT-DIAG] SERVER: invalid recipe cost"); return; }
-			if (!workbench.DeductMats_check(requiredItem.ItemClassName, requiredItem.Quantity)) { Print("[BBP-CRAFT-DIAG] SERVER: insufficient attached " + requiredItem.ItemClassName); return; }
+			if (!requiredItem || requiredItem.Quantity <= 0) return;
+			if (!workbench.DeductMats_check(requiredItem.ItemClassName, requiredItem.Quantity)) return;
 		}
 		foreach (BBPRecipeItem requiredCost : requiredItems)
 		{
 			workbench.DeductMats(requiredCost.ItemClassName, requiredCost.Quantity);
 		}
-		Print("[BBP-CRAFT-DIAG] SERVER: spawning kit " + selectedRecipe.GetResult());
 		GetGame().CreateObject(selectedRecipe.GetResult(), workbench.GetPosition() + "0 0.9 0");
 	}
 
@@ -83,10 +81,9 @@ class BBP_CRAFTINGBOOK_BASE extends ItemBase
 	{
 		super.OnRPC(sender, rpc_type, ctx);
 		if (!GetGame().IsServer() || rpc_type != CRAFTRPC) return;
-		if (!sender) { Print("[BBP-CRAFT-DIAG] SERVER: crafting RPC has no sender"); return; }
+		if (!sender) return;
 		Param1<int> rpcData;
-		if (!ctx.Read(rpcData)) { Print("[BBP-CRAFT-DIAG] SERVER: crafting RPC data unreadable"); return; }
-		Print("[BBP-CRAFT-DIAG] SERVER: crafting RPC received");
+		if (!ctx.Read(rpcData)) return;
 		CraftServer(rpcData.param1, FindPlayerByIdentity(sender));
 	}
 

@@ -6,7 +6,6 @@ class BBP_BASE extends Fence
 	protected bool								m_BBP_IsSwichedOn;
 	//protected bool 							m_DismantleDisabled;
 	protected Object 							m_ClutterCutter;
-	protected int m_BBPDoorTargetNextLog;
 
 	typename ATTACHMENT_BARBED_WIRE				= BarbedWire;
 	typename ATTACHMENT_FLASHLIGHT				= Flashlight;
@@ -1127,7 +1126,6 @@ class BBP_BASE extends Fence
 			if (hit == vector.Zero) return false;
 			vector localHit = WorldToModel(hit);
 			vector localCenter = GetSelectionPositionMS("wall_interact");
-			BBP_LogDoorTarget(target, localHit, localCenter);
 			if (isflat()) return vector.Distance(localHit, localCenter) <= 1.8;
 
 			// The large/small door meshes have their own interaction components.
@@ -1156,35 +1154,6 @@ class BBP_BASE extends Fence
 			if (selections[i] == "wall_interact") return true;
 		}
 		return false;
-	}
-
-	// Temporary client-only diagnostic: identify the actual model component hit.
-	void BBP_LogDoorTarget(ActionTarget target, vector localHit, vector localCenter)
-	{
-		if (!GetGame().IsClient()) return;
-
-		int now = GetGame().GetTime();
-		if (now < m_BBPDoorTargetNextLog) return;
-		m_BBPDoorTargetNextLog = now + 1600;
-
-		array<string> actionNames = new array<string>;
-		array<string> viewNames = new array<string>;
-		int component = target.GetComponentIndex();
-		GetActionComponentNameList(component, actionNames);
-		GetActionComponentNameList(component, viewNames, LOD.NAME_VIEW);
-
-		string actionText = "";
-		string viewText = "";
-		foreach (string actionName : actionNames)
-		{
-			actionText += actionName + ",";
-		}
-		foreach (string viewName : viewNames)
-		{
-			viewText += viewName + ",";
-		}
-
-		Print("[BBP-DOOR-TARGET] type=" + GetType() + " tier=" + BBPGetTier().ToString() + " component=" + component.ToString() + " action=[" + actionText + "] view=[" + viewText + "] hitMS=" + localHit.ToString() + " centerMS=" + localCenter.ToString());
 	}
 
 	// Use Fence's server-side rotation, opened-state and network synchronization.

@@ -127,7 +127,6 @@ class CraftingBookUI extends UIScriptedMenu
 	{		
 		if (w == m_CraftButton && m_Book && m_BBPRecipeBase) 
 		{
-			Print("[BBP-CRAFT-DIAG] CLIENT: Craft button clicked, sending request for " + m_BBPRecipeBase.GetResult());
 			m_Book.Craft(m_BBPRecipeBase);
 			tempisCrafting = true;// HENNY ADDED
 			GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY ).CallLater( time_buffer, 400, false); // HENNY ADDED
@@ -184,32 +183,6 @@ class CraftingBookUI extends UIScriptedMenu
 		if (m_PreviewItem)
 		{
 			GetGame().ObjectDelete(m_PreviewItem);
-		}
-		// Temporary diagnostic: report why the normal Craft button eligibility may fail.
-		BBP_Workbench diagBench;
-		if (m_Book) diagBench = BBP_Workbench.Cast(m_Book.GetHierarchyParent());
-		if (!diagBench)
-		{
-			Print("[BBP-CRAFT-DIAG] CLIENT: crafting book has no BBP_Workbench parent");
-		}
-		else
-		{
-			if (diagBench.Has_Tools()) Print("[BBP-CRAFT-DIAG] CLIENT: tools OK");
-			else Print("[BBP-CRAFT-DIAG] CLIENT: Has_Tools failed (tape measure or handsaw slot)");
-			array<autoptr BBPRecipeItem> diagRequirements = recipe.GetRequiredItems();
-			if (!diagRequirements)
-			{
-				Print("[BBP-CRAFT-DIAG] CLIENT: required-items array missing");
-			}
-			else
-			{
-				foreach (BBPRecipeItem diagItem : diagRequirements)
-				{
-					if (!diagItem) Print("[BBP-CRAFT-DIAG] CLIENT: null requirement");
-					else if (!diagBench.DeductMats_check(diagItem.ItemClassName, diagItem.Quantity)) Print("[BBP-CRAFT-DIAG] CLIENT: insufficient attached " + diagItem.ItemClassName);
-					else Print("[BBP-CRAFT-DIAG] CLIENT: material OK " + diagItem.ItemClassName);
-				}
-			}
 		}
 		BBPRecipePreviewItem previewItem = recipe.GetPreviewItem();
 		m_PreviewItem = InventoryItem.Cast(GetGame().CreateObject(previewItem.ItemClassName,"0 0 0", true, false, true ));
@@ -281,7 +254,6 @@ class RecipieButtonWidget extends ScriptedWidgetEventHandler {
 		
 	void ~RecipieButtonWidget(){
 		
-		Print("RecipieButtonWidget ItemDeleted");
 		m_ParentWidget.RemoveChild(m_Root);
 	}
 	
@@ -339,7 +311,6 @@ class RequiredItemWidget extends ScriptedWidgetEventHandler {
 			return;
 		}
 		
-		Print(m_PreviewItem);
 		
 		m_MainItemPreveiw.SetItem( m_PreviewItem );
 				
@@ -365,7 +336,6 @@ class RequiredItemWidget extends ScriptedWidgetEventHandler {
 	}
 		
 	void ~RequiredItemWidget(){
-		Print("RequiredItemWidget ItemDeleted");
 		m_ParentWidget.RemoveChild(m_Root);
 		GetGame().ObjectDelete(m_PreviewItem);
 	}
@@ -410,7 +380,6 @@ class RequiredItemWidget extends ScriptedWidgetEventHandler {
 			return;
 		}
 		
-		Print(m_PreviewItem);
 		
 		m_MainItemPreveiw.SetItem( m_PreviewItem );
 				
@@ -432,7 +401,6 @@ class RequiredItemWidget extends ScriptedWidgetEventHandler {
 	}
 		
 	void ~RequiredToolsWidget(){
-		Print("RequiredToolsWidget ItemDeleted");
 		m_ParentWidget.RemoveChild(m_Root);
 		GetGame().ObjectDelete(m_PreviewItem);
 	}
