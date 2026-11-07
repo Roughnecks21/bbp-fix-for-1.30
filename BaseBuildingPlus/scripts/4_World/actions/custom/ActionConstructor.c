@@ -12,7 +12,7 @@ modded class ActionConstructor
 		actions.Insert(ActionReadCraftingBook);		
 		actions.Insert(ActionReadCraftingBookOnWB);
 		actions.Insert(ActionGetBBPHP);
-		actions.Insert(obfc_ActionBBPDigitalCodeLock);
+		actions.Insert(ActionBBPDigitalCodeLock);
 		actions.Insert(ActionBBPTrustedOpen);			
 		//actions.Insert(ActionOpenBBPCraftUI);
     }

@@ -81,28 +81,28 @@ class CraftingBookUI extends UIScriptedMenu
 		
 		// Compute affordability for all materials. The server repeats these checks.
 		if (!m_CraftButton) return;
-		BBP_Workbench obfv_bench;
-		if (m_Book) obfv_bench = BBP_Workbench.Cast(m_Book.GetHierarchyParent());
-		bool obfv_canCraft = obfv_bench && m_BBPRecipeBase && !tempisCrafting;
-		if (obfv_canCraft)
+		BBP_Workbench workbench;
+		if (m_Book) workbench = BBP_Workbench.Cast(m_Book.GetHierarchyParent());
+		bool canCraft = workbench && m_BBPRecipeBase && !tempisCrafting;
+		if (canCraft)
 		{
-			obfv_canCraft = obfv_bench.Has_Tools();
-			array<autoptr BBPRecipeItem> obfv_items = m_BBPRecipeBase.GetRequiredItems();
-			if (!obfv_items) obfv_canCraft = false;
-			if (obfv_items)
+			canCraft = workbench.Has_Tools();
+			array<autoptr BBPRecipeItem> requiredItems = m_BBPRecipeBase.GetRequiredItems();
+			if (!requiredItems) canCraft = false;
+			if (requiredItems)
 			{
-				foreach (BBPRecipeItem obfv_item : obfv_items)
+				foreach (BBPRecipeItem requiredItem : requiredItems)
 				{
-					if (!obfv_item || !obfv_bench.DeductMats_check(obfv_item.ItemClassName, obfv_item.Quantity))
+					if (!requiredItem || !workbench.DeductMats_check(requiredItem.ItemClassName, requiredItem.Quantity))
 					{
-						obfv_canCraft = false;
+						canCraft = false;
 						break;
 					}
 				}
 			}
 		}
 		m_CraftButton.Show(true);
-		m_CraftButton.Enable(obfv_canCraft);
+		m_CraftButton.Enable(canCraft);
 	}
 	
 	void SetEntity(EntityAI entity){

@@ -115,7 +115,7 @@ class ActionDismantleBBP: ActionContinuousBase
 		if (targetObject && targetObject.IsInherited(BBP_BASE))
 		{
 			BBP_BASE bbpbase = BBP_BASE.Cast(targetObject);
-            if (bbpbase && bbpbase.IsBBPGate() && bbpbase.obfm_BBPIsSecured()) return false;
+            if (bbpbase && bbpbase.IsBBPGate() && bbpbase.BBPIsSecured()) return false;
 			if(bbpbase && bbpbase.PartGetBBP() == "ERROR")
 			{
 				return false;
@@ -264,7 +264,7 @@ class ActionDismantleBBP: ActionContinuousBase
 		if (targetObject && targetObject.IsInherited(BBP_BASE))
 		{
 			BBP_BASE bbpbase = BBP_BASE.Cast(targetObject);
-            if (!bbpbase || (bbpbase.IsBBPGate() && bbpbase.obfm_BBPIsSecured())) return;
+            if (!bbpbase || (bbpbase.IsBBPGate() && bbpbase.BBPIsSecured())) return;
 			Construction construction = bbpbase.GetConstruction();
 
 			if (GetGame().IsServer())

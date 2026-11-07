@@ -1,24 +1,24 @@
 modded class ActionNextCombinationLockDialOnTarget
 {
-	override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
-	{	
-		Object targetObject = target.GetObject();
-		if ( targetObject && targetObject.CanUseConstruction() )
-		{
-			BBP_BASE bbpbase = BBP_BASE.Cast( targetObject);
-			
-			if ( bbpbase && bbpbase.IsLocked() && !player.GetItemInHands() )
-			{
-				string selection = bbpbase.GetActionComponentName( target.GetComponentIndex() );
-				
-				ConstructionActionData construction_action_data = player.GetConstructionActionData();
-				construction_action_data.SetCombinationLock( bbpbase.GetCombinationLock() );
-				
-				return true;
-			}
-		}
-		
-		//return false;
-		return super.ActionCondition ( player, target, item );
-	}
+    override bool ActionCondition(PlayerBase player, ActionTarget target, ItemBase item)
+    {
+        if (!player || !target) return false;
+
+        BBP_BASE gate = BBP_BASE.Cast(target.GetObject());
+        if (gate)
+        {
+            if (!gate.CanUseConstruction() || player.GetItemInHands()) return false;
+
+            CombinationLock lock = gate.GetCombinationLock();
+            if (!lock || !lock.IsLocked()) return false;
+
+            ConstructionActionData actionData = player.GetConstructionActionData();
+            if (!actionData) return false;
+
+            actionData.SetCombinationLock(lock);
+            return true;
+        }
+
+        return super.ActionCondition(player, target, item);
+    }
 }

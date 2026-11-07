@@ -4365,8 +4365,14 @@ modded class ItemBase	// extends InventoryItem
 			iteminhands = ItemBase.Cast(player.GetHumanInventory().GetEntityInHands());
 		}
 
+		// Triangle kits use the existing edge points and triangle-specific rotations.
+		if (iteminhands && iteminhands.isTriangle())
+		{
+			return getSnappingPointFloorFlat_600();
+		}
+
 		// Foundations and large floor kits extend from the foundation edges; other kits remain centered.
-		if (!iteminhands || (!iteminhands.IsInherited(BBP_Foundation_Kit) && !iteminhands.IsInherited(BBP_Floor_Kit)))
+		if (!iteminhands || (!iteminhands.IsInherited(BBP_Foundation_Kit) && !iteminhands.IsInherited(BBP_Floor_Kit) && !iteminhands.IsInherited(BBP_Floor_Mesh_Kit) && !iteminhands.IsInherited(BBP_Floor_Hatch_Kit)))
 		{
 			HologramOrientation = AUTO_BBP_SNAPPING_OBJECT.GetOrientation();
 			vector center = (GetMemoryPointPos("snappingfloor_600_front") + GetMemoryPointPos("snappingfloor_600_back")) * 0.5;

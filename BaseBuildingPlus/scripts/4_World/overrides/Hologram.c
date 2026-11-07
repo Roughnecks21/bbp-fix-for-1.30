@@ -189,8 +189,15 @@ modded class Hologram
 			}
 		}
 
-		//return super.GetProjectionEntityPosition(player);
-		vector holoPosition = super.GetProjectionEntityPosition( player );
+		vector holoPosition;
+		if (item_in_hands.IsInherited(BBP_KIT_BASE) && !snappingEnabled)
+		{
+			holoPosition = BBP_GetFreePlacementPosition(player);
+		}
+		else
+		{
+			holoPosition = super.GetProjectionEntityPosition(player);
+		}
 		if ( item_in_hands.IsInherited(BBP_KIT_BASE) )
 		{
 			if ( !align_to_terrain )
@@ -203,7 +210,56 @@ modded class Hologram
 		}
 		return holoPosition;
 	}
-	
+
+	// Vanilla placement calculation without moving BBP kits to an inventory object's center.
+	// Used only for BBP kits while snapping is disabled.
+	protected vector BBP_GetFreePlacementPosition(PlayerBase player)
+	{
+		float minProjectionDistance;
+		float maxProjectionDistance;
+		m_ContactDir = vector.Zero;
+
+		float projectionRadius = GetProjectionRadius();
+		float cameraToPlayerDistance = vector.Distance(GetGame().GetCurrentCameraPosition(), player.GetPosition());
+		if (projectionRadius < SMALL_PROJECTION_RADIUS)
+		{
+			minProjectionDistance = SMALL_PROJECTION_RADIUS;
+			maxProjectionDistance = SMALL_PROJECTION_RADIUS * 2;
+		}
+		else
+		{
+			minProjectionDistance = projectionRadius;
+			maxProjectionDistance = Math.Clamp(projectionRadius * 2, SMALL_PROJECTION_RADIUS, LARGE_PROJECTION_DISTANCE_LIMIT);
+		}
+
+		vector from = GetGame().GetCurrentCameraPosition();
+		vector to = from + GetGame().GetCurrentCameraDirection() * (maxProjectionDistance + cameraToPlayerDistance);
+		vector contactPosition;
+		set<Object> hitObjects = new set<Object>();
+
+		DayZPhysics.RaycastRV(from, to, contactPosition, m_ContactDir, m_ContactComponent, hitObjects, player, m_Projection, false, false, ObjIntersectFire);
+
+		if (!CfgGameplayHandler.GetDisableIsCollidingBBoxCheck() && hitObjects.Count() > 0)
+		{
+			if (hitObjects[0].IsInherited(Watchtower))
+			{
+				contactPosition = CorrectForWatchtower(m_ContactComponent, contactPosition, player, hitObjects[0]);
+			}
+			// Do not replace contactPosition with hitObjects[0].GetPosition().
+			// That vanilla adjustment causes the unwanted jump to item/structure centers.
+		}
+
+		if (hitObjects.Count() > 0 && vector.DistanceSq(from, contactPosition) < 0.01)
+		{
+			from = contactPosition + GetGame().GetCurrentCameraDirection() * 0.25;
+			DayZPhysics.RaycastRV(from, to, contactPosition, m_ContactDir, m_ContactComponent, hitObjects, player, m_Projection, false, false, ObjIntersectFire);
+		}
+
+		SetIsFloating(SetHologramPosition(player.GetPosition(), minProjectionDistance, maxProjectionDistance, contactPosition));
+		m_FromAdjusted = from;
+		return contactPosition;
+	}
+
     override string ProjectionBasedOnParent()
     {
         BBP_KIT_BASE item_in_hands = BBP_KIT_BASE.Cast(m_Player.GetHumanInventory().GetEntityInHands());
@@ -865,15 +921,15 @@ modded class Hologram
 			return false;
 
 		bbp_config = GetDayZGame().getBBPGlobals();
-		bool obfv_floatingPlacement = false;
-		if (bbp_config) obfv_floatingPlacement = bbp_config.BBP_FloatingPlacement;
+		bool allowFloatingPlacement = false;
+		if (bbp_config) allowFloatingPlacement = bbp_config.BBP_FloatingPlacement;
 		if (!m_Player || !m_Player.GetHumanInventory()) return true;
 		ItemBase item_in_hands = ItemBase.Cast(m_Player.GetHumanInventory().GetEntityInHands());
 		BBP_BASE otherSnappingObject;
 		otherSnappingObject = AUTO_BBP_SNAPPING_OBJECT;
 		if (item_in_hands && item_in_hands.IsInherited(BBP_KIT_BASE) && sanppinghologram)
 		{
-			if (obfv_floatingPlacement)
+			if (allowFloatingPlacement)
 			{
 				return false;
 			}

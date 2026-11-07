@@ -4,11 +4,11 @@ modded class MiscGameplayFunctions
 	override static bool ComplexBuildCollideCheckClient(PlayerBase player, ActionTarget target, ItemBase item, int constraction_index)
 	{
 		if (!player || !target) return false;
-		Object obfv_target = target.GetObject();
-		if (obfv_target && obfv_target.IsInherited(BBP_BASE))
+		Object targetObject = target.GetObject();
+		if (targetObject && targetObject.IsInherited(BBP_BASE))
 		{
-			BaseBuildingBase obfv_base = BaseBuildingBase.Cast(obfv_target);
-			if (obfv_base && obfv_base.GetConstruction() && !player.IsLeaning()) return true;
+			BaseBuildingBase targetBase = BaseBuildingBase.Cast(targetObject);
+			if (targetBase && targetBase.GetConstruction() && !player.IsLeaning()) return true;
 			return false;
 		}
 		return super.ComplexBuildCollideCheckClient(player, target, item, constraction_index);

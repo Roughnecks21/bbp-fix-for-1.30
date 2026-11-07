@@ -23,6 +23,7 @@ modded class BaseBuildingBase
 	
 	bool HasProperDistanceBBP( string selection, PlayerBase player )
 	{
+		if (!player) return false;
 		if ( MemoryPointExists( selection ) )
 		{
 			vector selection_pos = ModelToWorld( GetMemoryPointPos( selection ) );
@@ -37,6 +38,7 @@ modded class BaseBuildingBase
 	
 	bool HasProperDistanceFlatBBP( string selection, PlayerBase player )
 	{
+		if (!player) return false;
 		if ( MemoryPointExists( selection ) )
 		{
 			vector selection_pos = ModelToWorld( GetMemoryPointPos( selection ) );
@@ -51,6 +53,7 @@ modded class BaseBuildingBase
 	
 	bool HasProperDistanceFlatInvBBP( string selection, PlayerBase player )
 	{
+		if (!player) return false;
 		if ( MemoryPointExists( selection ) )
 		{
 			vector selection_pos = ModelToWorld( GetMemoryPointPos( selection ) );
@@ -65,6 +68,7 @@ modded class BaseBuildingBase
 
 	bool HasProperDistanceBBPWindow( string selection, PlayerBase player )
 	{
+		if (!player) return false;
 		if ( MemoryPointExists( selection ) )
 		{
 			vector selection_pos = ModelToWorld( GetMemoryPointPos( selection ) );

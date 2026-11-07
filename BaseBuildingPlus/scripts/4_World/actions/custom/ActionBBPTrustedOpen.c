@@ -12,7 +12,7 @@ class ActionBBPTrustedOpen : ActionInteractCodeLockBase
     override void CreateConditionComponents()
     {
         m_ConditionItem = new CCINone;
-        m_ConditionTarget = new CCTCursor;
+        m_ConditionTarget = new CCTCursorInherited({BBP_BASE}, UAMaxDistances.DEFAULT);
     }
 
     override bool ActionCondition(PlayerBase player, ActionTarget target, ItemBase item)
@@ -20,10 +20,18 @@ class ActionBBPTrustedOpen : ActionInteractCodeLockBase
         if (!player || !target || !super.ActionCondition(player, target, item)) return false;
 
         BBP_BASE gate = BBP_BASE.Cast(target.GetObject());
-        if (!gate || !gate.IsBBPGate() || !gate.HasFullyConstructedGate()) return false;
+        if (!gate || !gate.IsBBPGate()) return false;
+        if (!gate.isBBPDoor() && !gate.HasFullyConstructedGate()) return false;
+        if (!gate.BBPCanInteractDoor(target)) return false;
 
         DigitalCodeLock codeLock = gate.GetCodeLock();
         if (!codeLock || !codeLock.HasPIN() || !codeLock.HasEnergy()) return false;
+
+        // Match server validation: do not expose this action on invalid dual-lock gates.
+        if (gate.GetCombinationLock()) return false;
+#ifdef EXPANSIONMODBASEBUILDING
+        if (gate.ExpansionGetCodeLock()) return false;
+#endif
 
         if (gate.isBBPDoor() && !gate.BBP_HasDoor()) return false;
         if (gate.isWindow())
@@ -60,11 +68,20 @@ class ActionBBPTrustedOpen : ActionInteractCodeLockBase
 
         PlayerBase player = action_data.m_Player;
         BBP_BASE gate = BBP_BASE.Cast(action_data.m_Target.GetObject());
-        if (!gate || !gate.IsBBPGate() || !gate.HasFullyConstructedGate()) return;
+        if (!gate || !gate.IsBBPGate()) return;
+        if (!gate.isBBPDoor() && !gate.HasFullyConstructedGate()) return;
         if (vector.Distance(player.GetPosition(), gate.GetPosition()) > 5.0) return;
-        if (!ActionCondition(player, action_data.m_Target, action_data.m_MainItem))
+        // The cursor-hit test is client-only; server targets may lack hit position.
+        // Revalidate constructed parts and proximity before trusted access.
+        if (gate.isBBPDoor() && !gate.BBP_HasDoor()) return;
+        if (gate.isWindow())
         {
-            return;
+            if (!gate.BBP_HasDoor()) return;
+            if (gate.isSmall())
+            {
+                if (!gate.HasProperDistanceBBP("inside", player)) return;
+            }
+            else if (!gate.HasProperDistanceBBPWindow("inside2", player)) return;
         }
 
         DigitalCodeLock codeLock = gate.GetCodeLock();

@@ -6,6 +6,7 @@ class BBP_BASE extends Fence
 	protected bool								m_BBP_IsSwichedOn;
 	//protected bool 							m_DismantleDisabled;
 	protected Object 							m_ClutterCutter;
+	protected int m_BBPDoorTargetNextLog;
 
 	typename ATTACHMENT_BARBED_WIRE				= BarbedWire;
 	typename ATTACHMENT_FLASHLIGHT				= Flashlight;
@@ -152,42 +153,49 @@ class BBP_BASE extends Fence
         return false;
     }
     
-	// Prefer Expansion's own slot when attaching a new Expansion CodeLock.
-	// Existing locks in Att_CombinationLock remain supported.
+	// New BBP Expansion locks use Att_CombinationLock.
+	// Keep existing locks in old slots discoverable.
 #ifdef EXPANSIONMODBASEBUILDING
 	override bool ExpansionFindCodeLockSlot(out string slotName = "")
 	{
 		if (IsBBPGate())
 		{
-			TStringArray slots = Expansion_GetAttachmentSlots();
-			if (slots && ExpansionStatic.StringArrayContainsIgnoreCase(slots, "Att_ExpansionCodeLock"))
+			EntityAI existing = FindAttachmentBySlotName("Att_ExpansionCodeLock");
+			if (existing && existing.IsKindOf("ExpansionCodeLock"))
 			{
 				slotName = "Att_ExpansionCodeLock";
 				return true;
 			}
+			existing = FindAttachmentBySlotName("Att_CodeLock");
+			if (existing && existing.IsKindOf("ExpansionCodeLock"))
+			{
+				slotName = "Att_CodeLock";
+				return true;
+			}
+			slotName = "Att_CombinationLock";
+			return true;
 		}
-
 		return super.ExpansionFindCodeLockSlot(slotName);
 	}
 #endif
 
 	// One lock per BBP gate; Expansion support is optional.
-	ItemBase obfm_BBPGetAttachedLock()
+	ItemBase BBPGetAttachedLock()
 	{
-		ItemBase obfv_lock = GetCombinationLock();
-		if (!obfv_lock) obfv_lock = GetCodeLock();
+		ItemBase attachedLock = GetCombinationLock();
+		if (!attachedLock) attachedLock = GetCodeLock();
 #ifdef EXPANSIONMODBASEBUILDING
-		if (!obfv_lock) obfv_lock = ExpansionGetCodeLock();
+		if (!attachedLock) attachedLock = ExpansionGetCodeLock();
 #endif
-		return obfv_lock;
+		return attachedLock;
 	}
 
 	bool BBP_HasLock()
 	{
-		return obfm_BBPGetAttachedLock() != null;
+		return BBPGetAttachedLock() != null;
 	}
 
-	bool obfm_BBPIsSecured()
+	bool BBPIsSecured()
 	{
 		if (IsLocked()) return true;
 #ifdef EXPANSIONMODBASEBUILDING
@@ -198,17 +206,17 @@ class BBP_BASE extends Fence
 
 	string BBP_deleteLock()
 	{
-		ItemBase obfv_lock = obfm_BBPGetAttachedLock();
-		if (!obfv_lock) return "Paper";
-		string obfv_type = obfv_lock.GetType();
-		obfv_lock.Delete();
-		return obfv_type;
+		ItemBase attachedLock = BBPGetAttachedLock();
+		if (!attachedLock) return "Paper";
+		string lockType = attachedLock.GetType();
+		attachedLock.Delete();
+		return lockType;
 	}
 
 	void BBP_LockHealth()
 	{
-		ItemBase obfv_lock = obfm_BBPGetAttachedLock();
-		if (obfv_lock) obfv_lock.SetHealth(0);
+		ItemBase attachedLock = BBPGetAttachedLock();
+		if (attachedLock) attachedLock.SetHealth(0);
 	}
 
     //BRO DON'T ASK...
@@ -478,15 +486,18 @@ class BBP_BASE extends Fence
 		{
 			return false;
 		}
+
+		// Dedicated servers have no local player; this is a UI-category check.
+		// Keep construction attachment lookup working; never dereference a null player.
+		if (!player)
+		{
+			if (GetGame().IsDedicatedServer()) return true;
+			return false;
+		}
 		
 		if ( category_name == "Materials" )
 		{
 			if(BBPGetTier() == 0 || BBPGetTier() == 69)
-			{
-				return true;
-			}
-			
-			else if(BBP_HasMats())
 			{
 				return true;
 			}
@@ -972,8 +983,8 @@ class BBP_BASE extends Fence
 				combination_lock.UnlockOnServer( player , this );
 			}
 			
-			DigitalCodeLock obfv_codeLock = GetCodeLock();
-			if (obfv_codeLock) obfv_codeLock.UnlockOnServer(this);
+			DigitalCodeLock nativeLock = GetCodeLock();
+			if (nativeLock) nativeLock.UnlockOnServer(this);
 			SetGateState( CheckGateState() );
 		}
 
@@ -1001,8 +1012,8 @@ class BBP_BASE extends Fence
 				combination_lock.UnlockOnServer( player , this );
 			}
 			
-			DigitalCodeLock obfv_codeLock = GetCodeLock();
-			if (obfv_codeLock) obfv_codeLock.UnlockOnServer(this);
+			DigitalCodeLock nativeLock = GetCodeLock();
+			if (nativeLock) nativeLock.UnlockOnServer(this);
 			SetGateState( CheckGateState() );
 		}
 	}
@@ -1104,6 +1115,78 @@ class BBP_BASE extends Fence
 		return true;
 	}*/
 	
+	// The wall_interact component covers more than the door on some BBP models.
+	// Limit door actions by where the cursor actually hits the panel.
+	bool BBPCanInteractDoor(ActionTarget target)
+	{
+		if (!target || target.GetObject() != this) return false;
+
+		if (isBBPDoor())
+		{
+			vector hit = target.GetCursorHitPos();
+			if (hit == vector.Zero) return false;
+			vector localHit = WorldToModel(hit);
+			vector localCenter = GetSelectionPositionMS("wall_interact");
+			BBP_LogDoorTarget(target, localHit, localCenter);
+			if (isflat()) return vector.Distance(localHit, localCenter) <= 1.8;
+
+			// The large/small door meshes have their own interaction components.
+			// Restrict client actions to these components, not the wall frame.
+			if (!isWindow() && GetGame().IsClient())
+			{
+				array<string> doorParts = new array<string>;
+				GetActionComponentNameList(target.GetComponentIndex(), doorParts);
+				foreach (string part : doorParts)
+				{
+					if (part == "t1_door" || part == "t2_door" || part == "t3_door") return true;
+				}
+				return false;
+			}
+
+			// Retain existing validation for windows and server-side actions.
+			float halfWidth = 0.85;
+			if (isSmall()) halfWidth = 0.65;
+			return Math.AbsFloat(localHit[0] - localCenter[0]) <= halfWidth && Math.AbsFloat(localHit[1] - localCenter[1]) <= 1.6;
+		}
+
+		array<string> selections = new array<string>;
+		GetActionComponentNameList(target.GetComponentIndex(), selections);
+		for (int i = 0; i < selections.Count(); i++)
+		{
+			if (selections[i] == "wall_interact") return true;
+		}
+		return false;
+	}
+
+	// Temporary client-only diagnostic: identify the actual model component hit.
+	void BBP_LogDoorTarget(ActionTarget target, vector localHit, vector localCenter)
+	{
+		if (!GetGame().IsClient()) return;
+
+		int now = GetGame().GetTime();
+		if (now < m_BBPDoorTargetNextLog) return;
+		m_BBPDoorTargetNextLog = now + 1600;
+
+		array<string> actionNames = new array<string>;
+		array<string> viewNames = new array<string>;
+		int component = target.GetComponentIndex();
+		GetActionComponentNameList(component, actionNames);
+		GetActionComponentNameList(component, viewNames, LOD.NAME_VIEW);
+
+		string actionText = "";
+		string viewText = "";
+		foreach (string actionName : actionNames)
+		{
+			actionText += actionName + ",";
+		}
+		foreach (string viewName : viewNames)
+		{
+			viewText += viewName + ",";
+		}
+
+		Print("[BBP-DOOR-TARGET] type=" + GetType() + " tier=" + BBPGetTier().ToString() + " component=" + component.ToString() + " action=[" + actionText + "] view=[" + viewText + "] hitMS=" + localHit.ToString() + " centerMS=" + localCenter.ToString());
+	}
+
 	// Use Fence's server-side rotation, opened-state and network synchronization.
 	// Only the server-validated trusted-door action may call these helpers.
 	void BBPTrustedOpenDoor()
@@ -1122,7 +1205,7 @@ class BBP_BASE extends Fence
 	override bool CanOpenFence()
 	{
 		if (!super.CanOpenFence()) return false;
-		return !obfm_BBPIsSecured();
+		return !BBPIsSecured();
 	}
 
 	override void OpenFence()
@@ -1187,7 +1270,7 @@ class BBP_BASE extends Fence
 		super.SetActions();
 		
 		AddAction(ActionFoldBaseBuildingObject);
-		AddAction(obfc_ActionBBPDigitalCodeLock);
+		AddAction(ActionBBPDigitalCodeLock);
 		AddAction(ActionBBPTrustedOpen);
 		///////////////////////////////////////
 		RemoveAction(ActionDialCombinationLockOnTarget);

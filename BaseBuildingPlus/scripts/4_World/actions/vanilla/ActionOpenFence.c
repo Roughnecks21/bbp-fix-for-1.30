@@ -1,5 +1,29 @@
 modded class ActionOpenFence
 {
+	override bool Can(PlayerBase player, ActionTarget target, ItemBase item, int condition_mask)
+	{
+		if (target)
+		{
+			BBP_BASE gate = BBP_BASE.Cast(target.GetObject());
+			if (gate)
+			{
+				DigitalCodeLock codeLock = gate.GetCodeLock();
+				if (codeLock)
+				{
+					// Configured vanilla locks use ActionBBPTrustedOpen.
+					if (codeLock.HasPIN()) return false;
+					// Unconfigured locks retain the vanilla action, only on the panel.
+					if (!gate.BBPCanInteractDoor(target)) return false;
+				}
+#ifdef EXPANSIONMODBASEBUILDING
+				// Expansion skips BBP's ActionCondition for its locks.
+				if (!codeLock && gate.isBBPDoor() && gate.ExpansionGetCodeLock() && !gate.BBPCanInteractDoor(target)) return false;
+#endif
+			}
+		}
+		return super.Can(player, target, item, condition_mask);
+	}
+
 	override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
 	{
 		Object targetObject = target.GetObject();
@@ -7,6 +31,7 @@ modded class ActionOpenFence
 		
 		if(bbpbase != null)
 		{
+			if (!bbpbase.BBPCanInteractDoor(target)) return false;
 			if ( bbpbase && bbpbase.CanCloseFence() )
 			{
 				return false;

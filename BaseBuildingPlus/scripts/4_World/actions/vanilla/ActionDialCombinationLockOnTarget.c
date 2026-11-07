@@ -21,15 +21,15 @@ modded class ActionDialCombinationLockOnTarget
 	override void OnFinishProgressServer(ActionData action_data)
 	{
 		if (!action_data || !action_data.m_Target || !action_data.m_Player) return;
-		BBP_BASE obfv_bbp = BBP_BASE.Cast(action_data.m_Target.GetObject());
-		if (!obfv_bbp)
+		BBP_BASE bbpGate = BBP_BASE.Cast(action_data.m_Target.GetObject());
+		if (!bbpGate)
 		{
 			super.OnFinishProgressServer(action_data);
 			return;
 		}
-		CombinationLock obfv_lock = obfv_bbp.GetCombinationLock();
-		if (!obfv_lock) return;
-		obfv_lock.DialNextNumber();
-		if (!obfv_lock.IsLocked()) obfv_lock.UnlockOnServer(action_data.m_Player, obfv_bbp);
+		CombinationLock attachedLock = bbpGate.GetCombinationLock();
+		if (!attachedLock) return;
+		attachedLock.DialNextNumber();
+		if (!attachedLock.IsLocked()) attachedLock.UnlockOnServer(action_data.m_Player, bbpGate);
 	}
 }
