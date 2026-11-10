@@ -1147,6 +1147,9 @@ class BBP_BASE extends Fence
 			return Math.AbsFloat(localHit[0] - localCenter[0]) <= halfWidth && Math.AbsFloat(localHit[1] - localCenter[1]) <= 1.6;
 		}
 
+		// Non-door gates and hangar roofs use different interaction selections.
+		if (IsBBPGate()) return true;
+
 		array<string> selections = new array<string>;
 		GetActionComponentNameList(target.GetComponentIndex(), selections);
 		for (int i = 0; i < selections.Count(); i++)
